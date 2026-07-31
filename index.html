@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shares Lite - Buy SCOM & ABSA from 100 bob</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ANIMATED GREEN LINES */
+    .chart-line {
+      position: absolute;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to top, #16a34a, #4ade80);
+      animation: grow 2s ease-in-out infinite alternate;
+    }
+    @keyframes grow {
+      from { height: 10%; opacity: 0.3; }
+      to { height: 80%; opacity: 1; }
+    }
+    .bg-green-grad { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans overflow-x-hidden">
+
+  <!-- ANIMATED BACKGROUND CHART -->
+  <div class="fixed inset-0 opacity-10 pointer-events-none">
+    <div class="chart-line" style="left:10%; animation-delay: 0s;"></div>
+    <div class="chart-line" style="left:20%; animation-delay: 0.2s;"></div>
+    <div class="chart-line" style="left:30%; animation-delay: 0.4s;"></div>
+    <div class="chart-line" style="left:40%; animation-delay: 0.6s;"></div>
+    <div class="chart-line" style="left:50%; animation-delay: 0.8s;"></div>
+    <div class="chart-line" style="left:60%; animation-delay: 1s;"></div>
+    <div class="chart-line" style="left:70%; animation-delay: 1.2s;"></div>
+    <div class="chart-line" style="left:80%; animation-delay: 1.4s;"></div>
+    <div class="chart-line" style="left:90%; animation-delay: 1.6s;"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="bg-green-grad text-white p-4 sticky top-0 z-10 shadow-lg">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Shares Lite 🔊</h1>
+      <p class="text-sm bg-white/20 px-3 py-1 rounded-full">Live NSE Data</p>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="p-8 text-center relative z-10">
+    <h2 class="text-4xl font-bold mb-2">Own ABSA @48 & SCOM @15.40</h2>
+    <p class="text-gray-600">Start with KES 100. Get paid via M-Pesa. Max 50,000 per transaction.</p>
+  </section>
+
+  <!-- STOCK CARDS -->
+  <section class="max-w-6xl mx-auto px-4 py-4 grid md:grid-cols-2 gap-6 relative z-10">
+
+    <!-- SCOM CARD -->
+    <div class="bg-white p-6 rounded-2xl shadow-xl border border-green-100">
+      <div class="flex justify-between">
+        <h3 class="text-xl font-bold">Safaricom PLC</h3>
+        <span class="text-sm bg-green-100 text-green-700 px-2 rounded">NSE: SCOM</span>
+      </div>
+      <p class="text-4xl font-bold mt-2">KES 15.40 <span class="text-sm text-green-600">▲ 2.3%</span></p>
+      <p class="text-sm text-gray-500 mb-4">Last Dividend: KES 0.62 per share</p>
+
+      <label class="text-sm font-semibold">Invest Amount</label>
+      <input type="number" id="scom-amount" min="100" max="50000" value="12000"
+        class="w-full p-3 border-2 border-green-200 rounded-lg mt-1 mb-2 focus:border-green-500 outline-none">
+      <p class="text-sm">You get: <b id="scom-shares" class="text-green-700">779.22</b> SCOM Shares</p>
+      <button onclick="openSignup('SCOM')" class="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg font-bold mt-3 transition">
+        Buy with M-Pesa
+      </button>
+    </div>
+
+    <!-- ABSA CARD -->
+    <div class="bg-white p-6 rounded-2xl shadow-xl border border-green-100">
+      <div class="flex justify-between">
+        <h3 class="text-xl font-bold">ABSA Bank</h3>
+        <span class="text-sm bg-green-100 text-green-700 px-2 rounded">NSE: ABSA</span>
+      </div>
+      <p class="text-4xl font-bold mt-2">KES 48.00 <span class="text-sm text-green-600">▲ 4.1%</span></p>
+      <p class="text-sm text-gray-500 mb-4">Last Dividend: KES 1.75 per share</p>
+
+      <label class="text-sm font-semibold">Invest Amount</label>
+      <input type="number" id="absa-amount" min="100" max="50000" value="1000"
+        class="w-full p-3 border-2 border-green-200 rounded-lg mt-1 mb-2 focus:border-green-500 outline-none">
+      <p class="text-sm">You get: <b id="absa-shares" class="text-green-700">20.83</b> ABSA Shares</p>
+      <button onclick="openSignup('ABSA')" class="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg font-bold mt-3 transition">
+        Buy with M-Pesa
+      </button>
+    </div>
+  </section>
+
+  <!-- SIGNUP + KYC + STK MODAL -->
+  <div id="signupModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-20 p-4">
+    <div class="bg-white p-6 rounded-2xl max-w-md w-full shadow-2xl">
+      <h3 class="text-2xl font-bold mb-1">Complete Purchase</h3>
+      <p class="text-sm text-gray-600 mb-4">Buying: <b id="stockName" class="text-green-700">SCOM</b> | Amount: <b id="modalAmount">KES 1000</b></p>
+      
+      <div class="space-y-3">
+        <input type="text" placeholder="Full Name - As per ID" id="name" required
+          class="w-full p-3 border-2 rounded-lg focus:border-green-500 outline-none">
+        <input type="tel" placeholder="Safaricom Number 07xx / 01xx" id="phone" required
+          class="w-full p-3 border-2 rounded-lg focus:border-green-500 outline-none">
+        <input type="text" placeholder="ID Number" id="idnumber" required
+          class="w-full p-3 border-2 rounded-lg focus:border-green-500 outline-none">
+      </div>
+
+      <label class="flex items-start mt-4 text-sm">
+        <input type="checkbox" id="terms" class="mr-2 mt-1" required>
+        <span>I agree to T&C. I am 18+. This is an investment.</span>
+      </label>
+
+      <button onclick="payNow()" id="payBtn" class="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg font-bold mt-4">
+        Send M-Pesa Prompt
+      </button>
+      <button onclick="closeSignup()" class="w-full text-gray-500 p-2 mt-2">Cancel</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-white p-6 text-center text-xs mt-12 relative z-10">
+    <b>Disclaimer:</b> Min 100, Max 50,000. Operates with partner broker. Shares held in CDS.
+  </footer>
+
+<script>
+  const prices = { SCOM: 15.40, ABSA: 48.00 };
+  let currentStock = 'SCOM';
+  const API_URL = 'https://yourdomain.com/api/stkpush'; // BADILISHA NA URL YAKO YA BACKEND
+
+  // Auto-calculate shares
+  document.getElementById('scom-amount').oninput = (e) => {
+    document.getElementById('scom-shares').innerText = (e.target.value / prices.SCOM).toFixed(4);
+  }
+  document.getElementById('absa-amount').oninput = (e) => {
+    document.getElementById('absa-shares').innerText = (e.target.value / prices.ABSA).toFixed(4);
+  }
+
+  function openSignup(stock) {
+    currentStock = stock;
+    const amount = document.getElementById(stock.toLowerCase() + '-amount').value;
+    if(amount < 100 || amount > 50000) return alert('Amount must be 100 - 50,000');
+    document.getElementById('stockName').innerText = stock;
+    document.getElementById('modalAmount').innerText = 'KES ' + amount;
+    document.getElementById('signupModal').classList.remove('hidden');
+  }
+
+  function closeSignup() {
+    document.getElementById('signupModal').classList.add('hidden');
+  }
+
+  // PAYHERO STK PUSH
+  async function payNow() {
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const id = document.getElementById('idnumber').value;
+    const terms = document.getElementById('terms').checked;
+    const amount = document.getElementById(currentStock.toLowerCase() + '-amount').value;
+    const btn = document.getElementById('payBtn');
+
+    if(!name || !phone || !id || !terms) return alert('Jaza fields zote na ukubali T&C');
+    if(!/^(07|01)[0-9]{8}$/.test(phone)) return alert('Weka Safaricom number tu 07xx/01xx');
+
+    btn.innerText = "Sending...";
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, idnumber: id, stock: currentStock, amount })
+      });
+      const data = await res.json();
+      
+      if(data.success) {
+        alert(`✅ Prompt imetumwa kwa ${phone}. Weka M-Pesa PIN yako.`);
+        closeSignup();
+      } else {
+        alert('❌ Error: ' + data.message);
+      }
+    } catch (err) {
+      alert('Server error. Hakikisha backend iko on.');
+    }
+    btn.innerText = "Send M-Pesa Prompt";
+    btn.disabled = false;
+  }
+</script>
+
+</body>
+  </html>
